@@ -30,17 +30,17 @@ int main(){
     std::cout << char_one << " Sizeof " << sizeof char_one << " Bytes" << std::endl;
     std::cout << int(char_one) << " Sizeof " << sizeof(int(char_one)) << " Bytes" << std::endl;
     std::cout << char_two << " Sizeof " << sizeof char_two << " Bytes" << std::endl;
-    std::wcout << L"wchar_t: " << wchar << L" Sizeof " << sizeof(wchar) << L" Bytes" << std::endl;
+    std::cout << "wchar_t: " << wchar << " Sizeof " << sizeof(wchar) << " Bytes" << std::endl;
 //    std::cout << "char8_t Sizeof " << sizeof(c8) << " Bytes" << std::endl;
-    std::cout << "char16_t Sizeof " << sizeof(c16) << " Bytes" << std::endl;
-    std::cout << "char32_t Sizeof " << sizeof(c32) << " Bytes" << std::endl;
+    std::cout << c16<<" Sizeof " << sizeof(c16) << " Bytes" << std::endl;
+    std::cout << c32<<" Sizeof " << sizeof(c32) << " Bytes" << std::endl;
 
     std::cout<<"Integer types"<<std::endl;
     short s = 1;
     int i = 2;
     long l = 3;
     long long ll = 4;
-    std::cout << "short Sizeof " << sizeof(s) << " Bytes" << std::endl;
+    std::cout << s <<" Sizeof " << sizeof(s) << " Bytes" << std::endl;
     std::cout << "int Sizeof " << sizeof(i) << " Bytes" << std::endl;
     std::cout << "long Sizeof " << sizeof(l) << " Bytes" << std::endl;
     std::cout << "long long Sizeof " << sizeof(ll) << " Bytes" << std::endl;
@@ -74,8 +74,9 @@ int main(){
     // String types
     std::string str = "Hello";
     std::wstring wstr = L"Привет";
-    std::cout << "std::string Sizeof " << sizeof(str) << " Bytes" << std::endl;
-    std::cout << "std::wstring Sizeof " << sizeof(wstr) << " Bytes" << std::endl;
+
+    std::cout << str<<" std::string Sizeof " << sizeof(str) << " Bytes" << std::endl;
+    std::wcout << wstr<<L"std::wstring Sizeof " << sizeof(wstr) << L" Bytes" << std::endl;
 
     // STL containers
     std::array<int, 5> arr = {1, 2, 3, 4, 5};
