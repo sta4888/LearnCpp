@@ -23,11 +23,12 @@ jobs:
         run: |
           $content = Get-Content CMakeLists.txt
           foreach ($line in $content) {
-            if ($line -match '^project\(([^)]+)\)') {
+            if ($line -match '^project\(\s*([^\s)]+)') {
               echo "name=$($matches[1])" >> $env:GITHUB_OUTPUT
               break
             }
           }
+
 
       - name: Extract CMake project version
         id: cmake_version
