@@ -38,3 +38,14 @@ cmake --build .
 
 ## Github Actions
 
+`name` - Название Actions
+
+`on:` - при каких случаях он будет запускаться
+
+
+#### Удаление тэга локально и на сервере
+```bash
+git tag -d main
+git push origin :refs/tags/main
+```
+

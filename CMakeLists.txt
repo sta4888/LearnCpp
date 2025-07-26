@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(Hello)
+project(Hello VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(${PROJECT_NAME} main.cpp)
-
+target_compile_definitions(${PROJECT_NAME} PRIVATE 
+    PROJECT_VERSION_MAJOR=${PROJECT_VERSION_MAJOR} 
+    PROJECT_VERSION_MINOR=${PROJECT_VERSION_MINOR} 
+    PROJECT_VERSION_PATCH=${PROJECT_VERSION_PATCH}
+)

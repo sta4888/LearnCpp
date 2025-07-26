@@ -29,6 +29,18 @@ jobs:
             }
           }
 
+      - name: Extract CMake project version
+        id: cmake_version
+        shell: pwsh
+        run: |
+          $content = Get-Content CMakeLists.txt
+          foreach ($line in $content) {
+            if ($line -match 'project\(\w+\s+VERSION\s+([0-9.]+)') {
+              echo "version=$($matches[1])" >> $env:GITHUB_OUTPUT
+              break
+            }
+          }
+
       - name: Create build directory
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 
@@ -48,8 +60,9 @@ jobs:
       - name: Upload Release to GitHub
         uses: softprops/action-gh-release@v2
         with:
-          name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: Release v${{ steps.cmake_version.outputs.version }}
+          tag_name: v${{ steps.cmake_version.outputs.version }}
           files: release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
