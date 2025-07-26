@@ -19,10 +19,16 @@ jobs:
 
       - name: Extract CMake project name
         id: cmake_project
-        shell: bash
+        shell: pwsh
         run: |
-          name=$(grep -Po '^project\(\K[^)]*' CMakeLists.txt)
-          echo "name=$name" >> $GITHUB_OUTPUT
+          $content = Get-Content CMakeLists.txt
+          foreach ($line in $content) {
+            if ($line -match '^project\(([^)]+)\)') {
+              echo "name=$($matches[1])" >> $env:GITHUB_OUTPUT
+              break
+            }
+          }
+
 
       - name: Create build directory
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
