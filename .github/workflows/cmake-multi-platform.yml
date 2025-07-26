@@ -2,11 +2,14 @@
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: CMake on multiple platforms
 
-on:
+on:  
   push:
+    tags:
+      - 'v*.*.*'
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  
 
 jobs:
   build:
@@ -74,9 +77,22 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
 
+    - name: Archive build output
+      shell: bash
+      run: |
+        mkdir -p release
+        cp ${{ steps.strings.outputs.build-output-dir }}/* ./release/
+
+        if [[ "${{ matrix.archive_ext }}" == "zip" ]]; then
+          7z a ${{ matrix.artifact_name }} ./release/*
+        else
+          tar -czf ${{ matrix.artifact_name }} -C ./release .
+        fi
+
     - name: Upload Release Asset
+      if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.strings.outputs.build-output-dir }}/path/to/your_binary.exe
+        files: ${{ matrix.artifact_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
