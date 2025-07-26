@@ -81,13 +81,14 @@ jobs:
       shell: bash
       run: |
         mkdir -p release
-        cp ${{ steps.strings.outputs.build-output-dir }}/* ./release/
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/* ./release/
 
         if [[ "${{ matrix.archive_ext }}" == "zip" ]]; then
           7z a ${{ matrix.artifact_name }} ./release/*
         else
           tar -czf ${{ matrix.artifact_name }} -C ./release .
         fi
+
 
     - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/')
