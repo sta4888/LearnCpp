@@ -1,12 +1,12 @@
-name: Windows Build
+name: Windows Build and Release
 
 on:
   push:
     tags:
-      - 'v*'  # будет запускаться только при пуше тега v1.0, v1.2.3 и т.п.
+      - 'v*'  # Только при пуше тега, например v1.0
 
 jobs:
-  build-windows:
+  build:
     runs-on: windows-latest
 
     steps:
@@ -44,9 +44,11 @@ jobs:
           New-Item -ItemType Directory -Force -Path release
           Copy-Item -Path $exePath -Destination "release\\${{ steps.cmake_project.outputs.name }}.exe"
 
-      - name: Upload to GitHub Release
+      - name: Upload Release to GitHub
         uses: softprops/action-gh-release@v2
         with:
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
           files: release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
