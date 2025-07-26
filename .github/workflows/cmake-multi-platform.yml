@@ -2,9 +2,8 @@ name: Windows Build
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*'  # будет запускаться только при пуше тега v1.0, v1.2.3 и т.п.
 
 jobs:
   build-windows:
@@ -29,7 +28,6 @@ jobs:
             }
           }
 
-
       - name: Create build directory
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 
@@ -46,9 +44,9 @@ jobs:
           New-Item -ItemType Directory -Force -Path release
           Copy-Item -Path $exePath -Destination "release\\${{ steps.cmake_project.outputs.name }}.exe"
 
-          
-      - name: Upload release artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: ${{ steps.cmake_project.outputs.name }}-windows
-          path: release/*.exe
+          files: release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
